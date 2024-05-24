@@ -1,4 +1,4 @@
-module core
+module github.com/ohwin/core
 
 go 1.19
 
