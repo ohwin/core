@@ -1,8 +1,8 @@
 package core
 
 import (
-	"core/initialize"
 	"github.com/gin-gonic/gin"
+	"github.com/ohwin/core/initialize"
 )
 
 func RunWindowsServer() {

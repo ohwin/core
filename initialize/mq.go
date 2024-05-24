@@ -1,9 +1,9 @@
 package initialize
 
 import (
-	"core/global"
-	"core/tools"
 	"fmt"
+	"github.com/ohwin/core/global"
+	"github.com/ohwin/core/tools"
 	"github.com/streadway/amqp"
 	"log"
 )

@@ -1,6 +1,6 @@
 package initialize
 
-import "core/log"
+import "github.com/ohwin/core/log"
 
 func Log() {
 	log.InitLogger()

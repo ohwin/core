@@ -1,10 +1,10 @@
 package middleware
 
 import (
-	"core/errorx"
-	"core/htp"
-	"core/tools"
 	"github.com/gin-gonic/gin"
+	"github.com/ohwin/core/errorx"
+	"github.com/ohwin/core/htp"
+	"github.com/ohwin/core/tools"
 	"strings"
 )
 

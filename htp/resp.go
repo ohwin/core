@@ -1,9 +1,9 @@
 package htp
 
 import (
-	"core/errorx"
-	"core/types"
 	"github.com/gin-gonic/gin"
+	"github.com/ohwin/core/errorx"
+	"github.com/ohwin/core/types"
 )
 
 type resp struct {

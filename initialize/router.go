@@ -1,8 +1,8 @@
 package initialize
 
 import (
-	"core/middleware"
 	"github.com/gin-gonic/gin"
+	"github.com/ohwin/core/middleware"
 )
 
 func Routers(r *gin.Engine) {

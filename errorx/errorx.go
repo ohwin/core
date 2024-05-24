@@ -1,7 +1,7 @@
 package errorx
 
 import (
-	"core/types"
+	"github.com/ohwin/core/types"
 )
 
 const (

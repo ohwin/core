@@ -1,7 +1,7 @@
 package initialize
 
 import (
-	"core/global"
+	"github.com/ohwin/core/global"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"

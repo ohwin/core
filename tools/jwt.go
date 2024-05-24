@@ -1,10 +1,10 @@
 package tools
 
 import (
-	"core/types"
 	"errors"
 	"fmt"
 	"github.com/golang-jwt/jwt/v4"
+	"github.com/ohwin/core/types"
 	"time"
 )
 

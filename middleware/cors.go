@@ -1,8 +1,8 @@
 package middleware
 
 import (
-	"core/log"
 	"github.com/gin-gonic/gin"
+	"github.com/ohwin/core/log"
 )
 
 func CORS() func(ctx *gin.Context) {

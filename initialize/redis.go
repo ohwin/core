@@ -1,7 +1,7 @@
 package initialize
 
 import (
-	"core/global"
+	"github.com/ohwin/core/global"
 	"github.com/redis/go-redis/v9"
 )
 

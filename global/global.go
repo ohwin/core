@@ -1,8 +1,8 @@
 package global
 
 import (
-	"core/config"
-	"core/tools"
+	"github.com/ohwin/core/config"
+	"github.com/ohwin/core/tools"
 	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
