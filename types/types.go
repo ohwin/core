@@ -1,5 +1,7 @@
 package types
 
+import "github.com/gin-gonic/gin"
+
 type (
 	StdStatusCode  uint8  // 标准状态类型
 	StdBooleanType uint8  // 标准布尔类型
@@ -7,6 +9,7 @@ type (
 )
 
 type (
+	RouterFunc           func(engine *gin.Engine) *gin.RouterGroup
 	LoginAndRegisterType uint8
 	PlatformType         uint8
 	DeviceType           uint8

@@ -5,6 +5,7 @@ import (
 	"github.com/ohwin/core/global"
 	"github.com/ohwin/core/initialize"
 	"github.com/ohwin/core/log"
+	"github.com/ohwin/core/types"
 )
 
 func Init() {
@@ -20,18 +21,22 @@ func Init() {
 
 }
 
-func RunWindowsServer(c *gin.Engine) {
+func RunWindowsServer(routers []types.RouterFunc) {
 	Init()
 
 	config := global.Config.Server
-	//c := gin.Default()
-	//{
-	//	initialize.Routers(c)
-	//}
+	c := gin.Default()
+	initRouter(c, routers)
 
-	err := c.Run(config.Port)
+	err := c.Run(config.GetPort())
 	if err != nil {
 		log.Warn("start server error:%v", err)
 		panic(err)
+	}
+}
+
+func initRouter(r *gin.Engine, routers []types.RouterFunc) {
+	for _, router := range routers {
+		router(r)
 	}
 }

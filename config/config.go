@@ -14,6 +14,13 @@ type Server struct {
 	Port    string `yaml:"port"`
 }
 
+func (s *Server) GetPort() string {
+	if len(s.Port) == 0 {
+		return ":8080"
+	}
+	return ":" + s.Port
+}
+
 type Mysql struct {
 	Host     string `yaml:"host"`
 	User     string `yaml:"user"`

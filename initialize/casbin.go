@@ -9,7 +9,7 @@ import (
 	"github.com/ohwin/core/log"
 )
 
-func Casbin() error {
+func Casbin() {
 	text := `
 		[request_definition]
 		r = sub, obj, act
@@ -44,5 +44,5 @@ func Casbin() error {
 		log.Warn("casbin enforce error: %v", err)
 		panic(err)
 	}
-	return nil
+	return
 }
