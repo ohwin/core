@@ -27,7 +27,7 @@ func InitLogger() {
 	config := zap.Config{
 		Level:            zap.NewAtomicLevelAt(zap.DebugLevel), // 日志级别
 		Development:      true,                                 // 开发模式，堆栈跟踪
-		Encoding:         "console",                            // 输出格式 console 或 json
+		Encoding:         "console",                            // 输出格式 console 或 yaml
 		EncoderConfig:    encoderConfig,                        // 编码器配置
 		OutputPaths:      []string{"stdout"},                   // 输出到指定文档 stdout（标准输出，正常颜色） stderr（错误输出，红色）
 		ErrorOutputPaths: []string{"stderr"},

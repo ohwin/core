@@ -6,6 +6,7 @@ import (
 )
 
 func RunWindowsServer() {
+	initialize.Viper()
 	initialize.Log()
 	initialize.Redis()
 	//initialize.MQ()

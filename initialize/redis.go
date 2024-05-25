@@ -7,10 +7,13 @@ import (
 
 // Redis 获取Redis链接
 func Redis() {
-	global.Redis = redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "", // no password set
-		DB:       0,  // use default DB
+	config := global.Config.Redis
+	client := redis.NewClient(&redis.Options{
+		Addr:     config.Host,
+		Password: config.Password, // no password set
+		DB:       config.DB,       // use default DB
 	})
-
+	global.Redis = &global.RDB{
+		Client: client,
+	}
 }

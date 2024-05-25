@@ -7,9 +7,9 @@ import (
 )
 
 type resp struct {
-	Msg  string            `json:"msg"`
-	Code types.ErrCodeType `json:"code"`
-	Data any               `json:"data,omitempty"`
+	Msg  string            `yaml:"msg"`
+	Code types.ErrCodeType `yaml:"code"`
+	Data any               `yaml:"data,omitempty"`
 }
 
 func OK(ctx *gin.Context, data any) {

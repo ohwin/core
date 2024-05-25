@@ -3,14 +3,13 @@ package global
 import (
 	"github.com/ohwin/core/config"
 	"github.com/ohwin/core/tools"
-	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
 var (
 	DB     *gorm.DB
-	Redis  redis.UniversalClient
-	Config config.Server
+	Redis  *RDB
+	Config config.ServerConfig
 	Mq     tools.MQ
 )
 
