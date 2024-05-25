@@ -3,6 +3,7 @@ package initialize
 import (
 	"fmt"
 	"github.com/ohwin/core/global"
+	"github.com/ohwin/core/log"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -23,5 +24,7 @@ func DB() {
 
 func dsn() string {
 	config := global.Config.Mysql
-	return fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", config.User, config.Password, config.Host, config.DB)
+	s := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", config.User, config.Password, config.Host, config.DB)
+	log.Debug("%s", s)
+	return s
 }
