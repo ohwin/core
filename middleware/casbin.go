@@ -4,12 +4,13 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/ohwin/core/auth"
 	"github.com/ohwin/core/errorx"
+	"github.com/ohwin/core/global"
 	"github.com/ohwin/core/htp"
 	"log"
 )
 
 func Casbin() gin.HandlerFunc {
-	e := auth.Cas.Enforce
+	e := global.Enforce
 	return func(ctx *gin.Context) {
 		err := e.LoadPolicy()
 		if err != nil {

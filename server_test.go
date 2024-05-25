@@ -9,9 +9,6 @@ import (
 
 func TestRunWindowsServer(t *testing.T) {
 
-	a := make([]int, 0)
-	c := CC(a)
-	fmt.Println("--->", c.(string))
 	Init()
 	global.Redis.Set("sdd", "s", 0)
 
