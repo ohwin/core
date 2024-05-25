@@ -20,14 +20,14 @@ func Init() {
 
 }
 
-func RunWindowsServer() {
+func RunWindowsServer(c *gin.Engine) {
 	Init()
 
 	config := global.Config.Server
-	c := gin.Default()
-	{
-		initialize.Routers(c)
-	}
+	//c := gin.Default()
+	//{
+	//	initialize.Routers(c)
+	//}
 
 	err := c.Run(config.Port)
 	if err != nil {
