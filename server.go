@@ -5,12 +5,15 @@ import (
 	"github.com/ohwin/core/initialize"
 )
 
-func RunWindowsServer() {
+func Init() {
 	initialize.Viper()
 	initialize.Log()
 	initialize.Redis()
 	//initialize.MQ()
 	initialize.DB()
+}
+
+func RunWindowsServer() {
 
 	c := gin.Default()
 

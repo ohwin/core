@@ -1,9 +1,13 @@
 package core
 
-import "testing"
+import (
+	"github.com/ohwin/core/global"
+	"testing"
+)
 
 func TestRunWindowsServer(t *testing.T) {
 
-	RunWindowsServer()
+	Init()
+	global.Redis.Set("sdd", "s", 0)
 
 }

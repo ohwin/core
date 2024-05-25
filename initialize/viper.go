@@ -2,7 +2,7 @@ package initialize
 
 import (
 	"fmt"
-	"github.com/ohwin/core/config"
+	"github.com/ohwin/core/global"
 	"github.com/spf13/viper"
 )
 
@@ -27,10 +27,10 @@ func Viper() {
 		}
 	}
 	// 映射到结构体
-	var serverConfig config.ServerConfig
-	if err := viperConfig.Unmarshal(&serverConfig); err != nil {
+	//var serverConfig config.ServerConfig
+	if err := viperConfig.Unmarshal(&global.Config); err != nil {
 		fmt.Printf("配置映射错误,%v\n", err)
 	}
-	fmt.Printf("config: %+v\n", serverConfig)
+	fmt.Printf("config: %+v\n", global.Config)
 
 }
