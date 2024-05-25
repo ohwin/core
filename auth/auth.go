@@ -18,6 +18,9 @@ func RemoteIP(ctx context.Context) string {
 	return c.RemoteIP()
 }
 
-func UserId(ctx context.Context) uint {
-	return Get(ctx, "user_id").(uint)
+func UID(ctx context.Context) string {
+	if uid := Get(ctx, "uid"); uid != nil {
+		return uid.(string)
+	}
+	return ""
 }

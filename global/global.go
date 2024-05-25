@@ -1,16 +1,18 @@
 package global
 
 import (
+	"github.com/casbin/casbin/v2"
 	"github.com/ohwin/core/config"
 	"github.com/ohwin/core/tools"
 	"gorm.io/gorm"
 )
 
 var (
-	DB     *gorm.DB
-	Redis  *RDB
-	Config config.ServerConfig
-	Mq     tools.MQ
+	DB      *gorm.DB
+	Redis   *RDB
+	Config  config.ServerConfig
+	Mq      tools.MQ
+	Enforce *casbin.SyncedCachedEnforcer
 )
 
 const (

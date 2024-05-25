@@ -14,8 +14,7 @@ func JWTAuth() func(ctx *gin.Context) {
 		token, tokenErr := getToken(ctx, htp.Authorization)
 		refreshToken, refreshTokenErr := getToken(ctx, htp.RefreshToken)
 		if tokenErr != nil || refreshTokenErr != nil {
-			htp.Fail(ctx, errorx.RespCodeTypeTokenError)
-			ctx.Abort()
+			htp.Fail(ctx, errorx.RespCodeTypeTokenError).Abort()
 			return
 		}
 
@@ -25,24 +24,21 @@ func JWTAuth() func(ctx *gin.Context) {
 
 		// refreshToken错误或者token与refreshToken中保存的token不一致直接返回
 		if refreshTokenErr != nil || !tools.TokenCompare(token, refreshClaims.Token) {
-			htp.Fail(ctx, errorx.RespCodeTypeTokenError)
-			ctx.Abort()
+			htp.Fail(ctx, errorx.RespCodeTypeTokenError).Abort()
 			return
 		}
 
 		if tokenErr != nil {
 			if tools.TokenIsExpiredErr(tokenErr) { // 过期错误刷新Token
-				newToken, newRefreshToken, err := tools.Token(refreshClaims.ID, refreshClaims.Platform, refreshClaims.Device)
+				newToken, newRefreshToken, err := tools.Token(refreshClaims.ID, refreshClaims.Platform, refreshClaims.Device, refreshClaims.Role)
 				if err != nil {
-					htp.Fail(ctx, errorx.RespCodeTypeServerInternal)
-					ctx.Abort()
+					htp.Fail(ctx, errorx.RespCodeTypeServerInternal).Abort()
 					return
 				}
 				htp.SetHeader(ctx, htp.Authorization, newToken)
 				htp.SetHeader(ctx, htp.RefreshToken, newRefreshToken)
 			} else { // token无效
-				htp.Fail(ctx, errorx.RespCodeTypeTokenInvalid)
-				ctx.Abort()
+				htp.Fail(ctx, errorx.RespCodeTypeTokenInvalid).Abort()
 				return
 			}
 		}
@@ -51,7 +47,7 @@ func JWTAuth() func(ctx *gin.Context) {
 
 		// token有效
 		if tools.TokenCompare(token, refreshClaims.Token) {
-			ctx.Set("user_id", tools.StrToUint(refreshClaims.ID))
+			ctx.Set("uid", tools.StrToUint(refreshClaims.ID))
 			ctx.Next()
 		}
 	}

@@ -4,12 +4,14 @@ type ServerConfig struct {
 	Server Server `yaml:"server"`
 	Redis  Redis  `yaml:"redis"`
 	Mysql  Mysql  `yaml:"mysql"`
+	Casbin bool   `yaml:"casbin"`
 }
 
 type Server struct {
-	Port    int    `yaml:"port"`
-	Mode    string `yaml:"mode"`
+	Name    string `yaml:"name"`
 	Version string `yaml:"version"`
+	Mode    string `yaml:"mode"`
+	Port    string `yaml:"port"`
 }
 
 type Mysql struct {

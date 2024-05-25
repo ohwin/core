@@ -72,18 +72,20 @@ func OKWithHeader(ctx *gin.Context, data any, headers map[string]string) {
 }
 
 // Fail 失败响应
-func Fail(ctx *gin.Context, code types.ErrCodeType) {
+func Fail(ctx *gin.Context, code types.ErrCodeType) *gin.Context {
 	ctx.JSON(200, &resp{
 		Msg:  errorx.ErrMsg(code),
 		Code: code,
 	})
+	return ctx
 }
 
 // FailWithErr 失败响应携带自定义错误
-func FailWithErr(ctx *gin.Context, err error) {
+func FailWithErr(ctx *gin.Context, err error) *gin.Context {
 	errorCodeStr := err.(*errorx.ErrorCodeStr)
 	ctx.JSON(200, &resp{
 		Msg:  errorCodeStr.Msg,
 		Code: errorCodeStr.Code,
 	})
+	return ctx
 }

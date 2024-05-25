@@ -2,8 +2,8 @@ package tools
 
 import (
 	"errors"
-	"fmt"
 	"github.com/golang-jwt/jwt/v4"
+	"github.com/ohwin/core/log"
 	"github.com/ohwin/core/types"
 	"time"
 )
@@ -12,6 +12,8 @@ type CustomClaims struct {
 	jwt.RegisteredClaims
 	Platform types.PlatformType // 平台
 	Device   types.DeviceType   // 设备类型
+	UID      string             // 用户UID
+	Role     string             // 用户角色，逗号分隔
 	Token    string
 }
 
@@ -22,13 +24,13 @@ const (
 
 var CustomSecret = []byte("夏天夏天悄悄过去")
 
-func Token(id string, platform types.PlatformType, device types.DeviceType) (string, string, error) {
+func Token(id string, platform types.PlatformType, device types.DeviceType, role string) (string, string, error) {
 
-	token, err := GenToken(TokenExpireDuration, id, platform, device, nil)
+	token, err := GenToken(TokenExpireDuration, platform, device, id, "", role)
 	if err != nil {
 		return "", "", err
 	}
-	refreshToken, err := GenToken(RefreshTokenExpireDuration, id, platform, device, &token)
+	refreshToken, err := GenToken(RefreshTokenExpireDuration, platform, device, token, id, role)
 	if err != nil {
 		return "", "", err
 	}
@@ -37,7 +39,7 @@ func Token(id string, platform types.PlatformType, device types.DeviceType) (str
 }
 
 // GenToken 生成JWT
-func GenToken(expires time.Duration, id string, platform types.PlatformType, device types.DeviceType, str *string) (string, error) {
+func GenToken(expires time.Duration, platform types.PlatformType, device types.DeviceType, id, tokenStr, role string) (string, error) {
 	// 创建一个我们自己的声明
 	claims := CustomClaims{
 		RegisteredClaims: jwt.RegisteredClaims{
@@ -47,30 +49,15 @@ func GenToken(expires time.Duration, id string, platform types.PlatformType, dev
 		},
 		Platform: platform,
 		Device:   device,
-	}
-	if str != nil {
-
-		claims.Token = *str
+		UID:      id,
+		Role:     role,
+		Token:    tokenStr,
 	}
 	// 使用指定的签名方法创建签名对象
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	// 使用指定的secret签名并获得完整的编码后的字符串token
 	return token.SignedString(CustomSecret)
 }
-
-//func GenRefreshToken(id string, platform types.PlatformType, device types.DeviceType, str string) (string, error) {
-//
-//	claims := CustomClaims{
-//		RegisteredClaims: jwt.RegisteredClaims{
-//			ExpiresAt: jwt.NewNumericDate(time.Now().Add(RefreshTokenExpireDuration)),
-//			Issuer:    "ohWin", // 签发人
-//		},
-//		Random: randomStr(6),
-//	}
-//
-//	refreshToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-//	return refreshToken.SignedString(CustomSecret)
-//}
 
 // ParseToken 解析JWT
 func ParseToken(tokenString string) (*CustomClaims, error) {
@@ -79,10 +66,10 @@ func ParseToken(tokenString string) (*CustomClaims, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &CustomClaims{}, func(token *jwt.Token) (i interface{}, err error) {
 		return CustomSecret, nil
 	})
-
 	if err != nil {
 		return nil, err
 	}
+
 	// 对token对象中的Claim进行类型断言
 	if claims, ok := token.Claims.(*CustomClaims); ok && token.Valid { // 校验token
 		return claims, nil
@@ -100,7 +87,7 @@ func TokenCompare(token1, token2 string) bool {
 func TokenIsExpiredErr(err error) bool {
 	if validationErr, ok := err.(*jwt.ValidationError); ok {
 		if validationErr.Errors == jwt.ValidationErrorExpired {
-			fmt.Println("Token is expired")
+			log.Debug("Token Error %s", "Token is expired")
 			return true
 		}
 	}
