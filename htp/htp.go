@@ -36,9 +36,9 @@ func SetHeader(ctx *gin.Context, k string, v string) {
 }
 
 type resp struct {
-	Msg  string            `yaml:"msg"`
-	Code types.ErrCodeType `yaml:"code"`
-	Data any               `yaml:"data,omitempty"`
+	Msg  string            `json:"msg"`
+	Code types.ErrCodeType `json:"code"`
+	Data any               `json:"data"`
 }
 
 // OK 成功响应

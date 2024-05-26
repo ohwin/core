@@ -6,12 +6,23 @@ import (
 	"github.com/ohwin/core/errorx"
 	"github.com/ohwin/core/global"
 	"github.com/ohwin/core/htp"
+	"github.com/ohwin/core/types"
 	"log"
 )
 
-func Casbin() gin.HandlerFunc {
+func Casbin(skipRouters []types.SkipRouter) gin.HandlerFunc {
 	e := global.Enforce
 	return func(ctx *gin.Context) {
+
+		url := ctx.Request.URL.Path
+		method := ctx.Request.Method
+		for _, skip := range skipRouters {
+			if skip.Method == method && skip.Url == url {
+				ctx.Next()
+				return
+			}
+		}
+
 		err := e.LoadPolicy()
 		if err != nil {
 			htp.Fail(ctx, errorx.RespCodeTypeTokenError).Abort()
