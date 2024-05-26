@@ -48,9 +48,12 @@ func (repo *BaseRepo) Update(model ModelI) error {
 }
 
 func (repo *BaseRepo) Get(model ModelI, param ParamI) (interface{}, error) {
-	err := global.DB.Model(model).Scopes(param.Where()).Find(model).Error
+	err := global.DB.Model(model).Scopes(param.Where()).First(model).Error
 	if err != nil {
-		return nil, nil
+		if err == gorm.ErrRecordNotFound {
+			return nil, nil
+		}
+		return nil, err
 	}
 	return model, nil
 }

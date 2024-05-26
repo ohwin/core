@@ -5,11 +5,20 @@ import (
 	"github.com/ohwin/core/errorx"
 	"github.com/ohwin/core/htp"
 	"github.com/ohwin/core/tools"
+	"github.com/ohwin/core/types"
 	"strings"
 )
 
-func JWTAuth() func(ctx *gin.Context) {
+func JWTAuth(skipRouters []types.SkipRouter) func(ctx *gin.Context) {
 	return func(ctx *gin.Context) {
+		url := ctx.Request.URL.Path
+		method := ctx.Request.Method
+		for _, skip := range skipRouters {
+			if skip.Method == method && skip.Url == url {
+				return
+			}
+		}
+
 		// 获取token
 		token, tokenErr := getToken(ctx, htp.Authorization)
 		refreshToken, refreshTokenErr := getToken(ctx, htp.RefreshToken)

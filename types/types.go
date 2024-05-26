@@ -15,6 +15,12 @@ type (
 	DeviceType           uint8
 )
 
+// SkipRouter 跳过路由类型
+type SkipRouter struct {
+	Url    string
+	Method string
+}
+
 const (
 	StdStatusCodeNone  StdStatusCode = iota // 用户查询所有
 	StdStatusCodeAllow                      // 表示可用、打开、有效
