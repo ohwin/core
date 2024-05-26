@@ -45,6 +45,7 @@ func JWTAuth(skipRouters []types.SkipRouter) func(ctx *gin.Context) {
 					htp.Fail(ctx, errorx.RespCodeTypeServerInternal).Abort()
 					return
 				}
+				//htp.SetHeader(ctx, "Access-Control-Expose-Headers", "Authorization")
 				htp.SetHeader(ctx, htp.Authorization, newToken)
 				htp.SetHeader(ctx, htp.RefreshToken, newRefreshToken)
 			} else { // token无效
