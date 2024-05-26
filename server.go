@@ -21,11 +21,19 @@ func Init() {
 
 }
 
-func RunWindowsServer(routers []types.RouterFunc) {
+func RunWindowsServer(routers []types.RouterFunc, inits []func()) {
+	// 初始化
 	Init()
+
+	// 自定义初始化
+	for _, f := range inits {
+		f()
+	}
 
 	config := global.Config.Server
 	c := gin.Default()
+
+	// 路由初始化
 	initRouter(c, routers)
 
 	err := c.Run(config.GetPort())
