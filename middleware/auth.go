@@ -15,6 +15,7 @@ func JWTAuth(skipRouters []types.SkipRouter) func(ctx *gin.Context) {
 		method := ctx.Request.Method
 		for _, skip := range skipRouters {
 			if skip.Method == method && skip.Url == url {
+				ctx.Next()
 				return
 			}
 		}
