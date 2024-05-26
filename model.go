@@ -11,52 +11,51 @@ type DBModel struct {
 	gorm.Model
 }
 
-func (m DBModel) ID() uint {
+func (m DBModel) Id() uint {
 	return m.Model.ID
 }
 
 type ModelI interface {
-	ID() uint
+	Id() uint
 }
 
 type ParamI interface {
 	Where() func(db *gorm.DB) *gorm.DB
 	Order() clause.OrderByColumn
 }
+type BaseRepo struct {
+}
 
-func Create(model ModelI) (uint, error) {
+func (repo *BaseRepo) Create(model ModelI) (uint, error) {
 	if err := global.DB.Create(model).Error; err != nil {
 		return 0, err
 	}
-	return model.ID(), nil
+	return model.Id(), nil
 }
 
-func Del(model ModelI) error {
-	if err := global.DB.Model(model).Delete(model).Error; err != nil {
+func (repo *BaseRepo) Del(model ModelI, param ParamI) error {
+	if err := global.DB.Delete(model).Scopes(param.Where()).Error; err != nil {
 		return err
 	}
 	return nil
 }
 
-func Update(model ModelI) error {
-	if err := global.DB.Model(model).Updates(model).Error; err != nil {
+func (repo *BaseRepo) Update(model ModelI) error {
+	if err := global.DB.Updates(model).Error; err != nil {
 		return err
 	}
 	return nil
 }
 
-func Get(model ModelI, query ...func(db *gorm.DB) *gorm.DB) (interface{}, error) {
-	err := global.DB.Where(model).Scopes(query...).First(model).Error
+func (repo *BaseRepo) Get(model ModelI, param ParamI) (interface{}, error) {
+	err := global.DB.Model(model).Scopes(param.Where()).Find(model).Error
 	if err != nil {
-		if err == gorm.ErrRecordNotFound {
-			return nil, nil
-		}
-		return nil, err
+		return nil, nil
 	}
 	return model, nil
 }
 
-func GetList(model ModelI, res interface{}, param ParamI, page, pageSize int) (int64, interface{}, error) {
+func (repo *BaseRepo) GetList(model ModelI, res interface{}, param ParamI, page, pageSize int) (int64, interface{}, error) {
 	var total int64
 
 	db := global.DB.Model(model).Scopes(param.Where()).Count(&total)

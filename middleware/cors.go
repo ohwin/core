@@ -6,9 +6,7 @@ import (
 )
 
 func CORS() func(ctx *gin.Context) {
-	log.Debug("---->%s", "as")
 	return func(ctx *gin.Context) {
-		log.Debug("---->%s", " ctx.Request.Method")
 		//设置响应头中的"Access-Control-Allow-Origin"字段，允许任何域名访问资源（这是一个简单的CORS策略，实际应用中可能需要更严格的控制）。
 		ctx.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 		ctx.Header("Access-Control-Allow-Methods", "POST,GET,OPTIONS,PUT,DELETE, UPDATE")

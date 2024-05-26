@@ -9,7 +9,7 @@ type (
 )
 
 type (
-	RouterFunc           func(engine *gin.Engine) *gin.RouterGroup
+	RouterFunc           func(engine *gin.Engine)
 	LoginAndRegisterType uint8
 	PlatformType         uint8
 	DeviceType           uint8
